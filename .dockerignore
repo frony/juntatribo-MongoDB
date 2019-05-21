@@ -1,0 +1,13 @@
+node_modules
+coverage
+coverage.html
+.DS_Store
+.git
+.nvmrc
+.node-version
+*.log
+.gitignore
+*.iml
+*.ipr
+*.iws
+.idea
