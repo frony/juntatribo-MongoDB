@@ -1,0 +1,35 @@
+{
+  "name": "jukebox",
+  "version": "0.1.0",
+  "private": true,
+  "description": "An app to share music lists, gather news about bands, list upcoming concerts and save comments and images of concerts I attend.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "pretest": "npm run lint",
+    "test": "mocha",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "clean:install": "rm -Rf node_modules && npm install",
+    "diagnose": "npm run clean:install && npm test && npm outdated && npm run coverage:open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:frony/jukebox.git"
+  },
+  "keywords": [
+    "Node",
+    "music",
+    "jukebox",
+    "concert",
+    "concerts",
+    "band",
+    "bands"
+  ],
+  "author": "Marcos Frony <mfrony@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/frony/jukebox/issues"
+  },
+  "homepage": "https://github.com/frony/jukebox#readme"
+}
