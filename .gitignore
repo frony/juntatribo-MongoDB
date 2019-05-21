@@ -36,8 +36,8 @@ npm-debug.log*
 *.ipr
 *.iws
 .idea
-.idea/*
-.idea/workspace.xml
+*.idea
+*/workspace.xml
 
 # Temporary documentation ignore
 /out
