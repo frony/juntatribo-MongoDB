@@ -31,7 +31,8 @@ app.set('view engine', 'ejs');
 
 const nav = [
   { link: '/player', title: 'Music Player' },
-  { link: '/auth/profile', title: 'User Profile' } // TODO: create profile router and move it out of auth profile
+  { link: '/auth/profile', title: 'User Profile' }, // TODO: create profile router and move it out of auth profile
+  { link: '/auth/logout', title: 'Log Out' }, // TODO: create profile router and move it out of auth profile
 ];
 
 const authRouter = require('./src/routes/authRoutes')(nav);
