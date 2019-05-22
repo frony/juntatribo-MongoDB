@@ -26,8 +26,8 @@ function router(nav) {
         password,
       } = req.body;
       const url = 'mongodb://localhost:27017';
-      const dbName = 'sandbox'; // TODO: get this from a config file
-      // const dbName = 'jukebox'; // TODO: get this from a config file
+      // const dbName = 'sandbox'; // TODO: get this from a config file
+      const dbName = 'jukebox'; // TODO: get this from a config file
       const colName = 'users'; // TODO: get this from a config file
 
       (async function addUser(){
@@ -64,6 +64,12 @@ function router(nav) {
         }
       }());
     });
+
+  authRouter.route('/signin')
+    .post(passport.authenticate('local', {
+      successRedirect: '/auth/profile',
+      failureRedirect: '/',
+    }));
 
   authRouter.route('/logout')
     .get((req, res) => {
