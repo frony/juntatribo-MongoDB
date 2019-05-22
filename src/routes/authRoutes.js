@@ -44,16 +44,28 @@ function router(nav) {
           // insert user into DB
           const results = await col.insertOne(user);
           debug(results);
-          res.send('I am signed up again!');
-/*          req.login(results.ops[0], () => {
-            res.send('I am signed up again!');
-          });*/
+          req.login(results.ops[0], () => {
+            debug('I am signed up after login!');
+            res.redirect('/auth/profile');
+          });
         } catch(err) {
           if (err) {
             debug(err.stack);
           }
         }
       }());
+    });
+
+  authRouter.route('/profile')
+    .all((req, res, next) => {
+      if (req.user) {
+        next();
+      } else {
+        res.redirect('/');
+      }
+    })
+    .get((req, res) => {
+      res.json(req.user);
     });
 
   return authRouter;
