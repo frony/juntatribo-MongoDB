@@ -65,7 +65,16 @@ function router(nav) {
       }
     })
     .get((req, res) => {
-      res.json(req.user);
+      res.render(
+        'profile',
+        {
+          nav,
+          title: 'Jukebox: profile',
+          firstname: req.user.firstname,
+          lastname: req.user.lastname,
+          email: req.user.email,
+        }
+      );
     });
 
   return authRouter;
