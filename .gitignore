@@ -3,6 +3,8 @@ node_modules
 *.swp
 .DS_Store
 
+index.html
+
 # ssl certificates folder
 ssl
 certs
