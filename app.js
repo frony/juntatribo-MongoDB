@@ -17,8 +17,8 @@ const port = process.env.PORT || 3333;
 app.use(morgan('tiny'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(cookieParser());
-// app.use(session({ secret: 'jukebox' })); // TODO: Get it from a config file
+app.use(cookieParser());
+app.use(session({ secret: 'jukebox' })); // TODO: Get it from a config file
 
 app.use(express.static(path.join(__dirname, '/public/')));
 app.use('/css', express.static(path.join(__dirname, '/node_modules/bootstrap/dist/css')));
@@ -28,25 +28,25 @@ app.set('views', './src/views');
 app.set('view engine', 'ejs');
 
 const nav = [
-  { link: '/player', title: 'Player' },
-  { link: '/profile', title: 'Profile' }
+  { link: '/player', title: 'Music Player' },
+  { link: '/profile', title: 'User Profile' }
 ];
 
+const authRouter = require('./src/routes/authRoutes')(nav);
+
+app.use('/auth', authRouter);
 
 app.get('/', (req, res) => {
   res.render(
     'index',
     {
-      nav: [
-        { link: '/books', title: 'Books' },
-        { link: '/authors', title: 'Authors' }
-      ],
+      nav,
       title: 'Jukebox'
     }
   );
 });
 
 app.listen(port, () => {
-  console.log(`listening on port ${chalk.green(port)}`);
+  // console.log(`listening on port ${chalk.green(port)}`);
   debug(`listening on port ${chalk.green(port)}`);
 });
