@@ -8,6 +8,15 @@ const debug = require('debug')('app:authRoutes');
 
 function router(nav) {
   authRouter.route('/signup')
+    .get((req, res) => {
+      res.render(
+        'signup',
+        {
+          nav,
+          title: 'Jukebox: Sign Up',
+        }
+      );
+    })
     .post((req, res) => {
       debug('Signing up!');
       const {
@@ -54,6 +63,14 @@ function router(nav) {
           }
         }
       }());
+    });
+
+  authRouter.route('/logout')
+    .get((req, res) => {
+      if (req.user) {
+        req.logout();
+      }
+      res.redirect('/');
     });
 
   authRouter.route('/profile')

@@ -6,12 +6,12 @@
   <title><%=title%></title>
   <meta name="generator" content="Bootply" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
   <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
   <!--[if lt IE 9]>
   <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
-  <link href="css/styles.css" rel="stylesheet">
+  <link href="/css/styles.css" rel="stylesheet">
 </head>
 <body>
 <header class="navbar navbar-bright navbar-fixed-top" role="banner">
@@ -33,7 +33,7 @@
         </li>
         <%}%>
       </ul>
-      <!--<ul class="nav navbar-right navbar-nav">
+      <ul class="nav navbar-right navbar-nav">
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-search"></i></a>
           <ul class="dropdown-menu" style="padding:12px;">
@@ -42,7 +42,7 @@
             </form>
           </ul>
         </li>
-      </ul>-->
+      </ul>
     </nav>
   </div>
 </header>
@@ -87,15 +87,18 @@
       <div class="panel">
         <div class="panel-body">
 
-          <!-- Sign In-->
+
+
+          <!-- Sign Up-->
           <div class="row">
             <br>
             <div class="col-md-2 col-sm-3 text-center">
-              Sign In! Or <a href='/auth/signup'>sign up</a>
-              <form name="signInForm" action="/auth/signin" method="post">
-                UserName: <input name="username" id="username"/><br/>
+              <form name="signUpForm" action="/auth/signup" method="post">
+                First Name: <input name="firstname" id="firstname"/>
+                Last Name: <input name="lastname" id="lastname"/><br/>
+                Email: <input name="username" id="username"/><br/>
                 Password: <input name="password" id="password"/><br/>
-                <input type="submit" value="Sign in" />
+                <input type="submit" value="Sign up" />
               </form>
             </div>
           </div>
@@ -153,6 +156,6 @@
 </footer>
 <!-- script references -->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
 </body>
 </html>
