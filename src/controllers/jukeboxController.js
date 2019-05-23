@@ -2,15 +2,15 @@
 
 const { MongoClient, ObjectID } = require('mongodb');
 const debug = require('debug')('app:jukeboxController');
-
+const config = require('../config/db.json');
 const AUDIO_DIR = '/audio/';
 
 
 function jukeboxController(nav) {
   function getSongList(req, res) {
-    const url = 'mongodb://localhost:27017';
-    const dbName = 'jukebox';
-    const collectionName = 'songs';
+    const url = config.dbURL;
+    const dbName = config.dbName;
+    const collectionName = config.collectionSongsName;
 
     (async function mongo(){
       let client;

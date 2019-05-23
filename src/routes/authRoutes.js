@@ -5,6 +5,7 @@ const authRouter = express.Router();
 const { MongoClient } = require('mongodb');
 const passport = require('passport');
 const debug = require('debug')('app:authRoutes');
+const config = require('../config/db.json');
 
 function router(nav) {
   authRouter.route('/signup')
@@ -25,10 +26,10 @@ function router(nav) {
         username,
         password,
       } = req.body;
-      const url = 'mongodb://localhost:27017';
-      // const dbName = 'sandbox'; // TODO: get this from a config file
-      const dbName = 'jukebox'; // TODO: get this from a config file
-      const colName = 'users'; // TODO: get this from a config file
+
+      const url = config.dbURL;
+      const dbName = config.dbName;
+      const colName = config.collectionUsersName;
 
       (async function addUser(){
         let client;

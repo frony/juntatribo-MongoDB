@@ -4,15 +4,16 @@ const passport = require("passport");
 const { Strategy } = require('passport-local');
 const { MongoClient } = require('mongodb');
 const debug = require('debug')('app:local.strategy');
+const config = require('../db.json');
 
 function localStrategy() {
   passport.use(new Strategy({
     usernameField: 'username',
     passwordField: 'password',
   }, (username, password, done) => {
-    const url = 'mongodb://localhost:27017'; // TODO: get it from a config file
-    // const dbName = 'sandbox';
-    const dbName = 'jukebox'; // TODO: get it from a config file
+    const url = config.dbURL;
+    const dbName = config.dbName;
+    const colName = config.collectionUsersName;
     (async function mongo() {
       let client;
       try {
@@ -20,7 +21,7 @@ function localStrategy() {
         debug('Connected correctly to server');
 
         const db = client.db(dbName);
-        const col = db.collection('users'); // TODO: get it from a config file
+        const col = db.collection(colName);
 
         const user = await col.findOne({ username });
 

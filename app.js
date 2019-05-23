@@ -10,6 +10,7 @@ const passport = require('passport');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const expressLayouts = require('express-ejs-layouts');
+const config = require('./src/config/common.json');
 
 const app = express();
 const port = process.env.PORT || 3333;
@@ -18,7 +19,7 @@ app.use(morgan('tiny'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(session({ secret: 'jukebox' })); // TODO: Get it from a config file
+app.use(session({ secret: config.sessionSecret }));
 
 require('./src/config/passport.js')(app);
 
@@ -34,7 +35,7 @@ app.set('view engine', 'ejs');
 const nav = [
   { link: '/jukebox', title: 'Music Player' },
   { link: '/auth/profile', title: 'User Profile' }, // TODO: create profile router and move it out of auth profile
-  { link: '/auth/logout', title: 'Log Out' }, // TODO: create profile router and move it out of auth profile
+  { link: '/auth/logout', title: 'Log Out' },
 ];
 
 const authRouter = require('./src/routes/authRoutes')(nav);
