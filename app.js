@@ -19,7 +19,12 @@ app.use(morgan('tiny'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(session({ secret: config.sessionSecret }));
+// app.use(session({ secret: config.sessionSecret }));
+app.use(session({
+  secret: config.sessionSecret,
+  resave: false,
+  saveUninitialized: false,
+}));
 
 require('./src/config/passport.js')(app);
 
