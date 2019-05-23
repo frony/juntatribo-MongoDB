@@ -3,6 +3,8 @@
 const { MongoClient, ObjectID } = require('mongodb');
 const debug = require('debug')('app:jukeboxController');
 
+const AUDIO_DIR = '/audio/';
+
 
 function jukeboxController(nav) {
   function getSongList(req, res) {
@@ -17,10 +19,19 @@ function jukeboxController(nav) {
         const db = client.db(dbName);
         const col = await db.collection(collectionName);
         const songs = await col.find().toArray();
+        const playlist = {
+          name: 'test',
+          tags: [],
+          list: {
+            default: songs[0],
+            all: songs,
+          },
+          fileDir: AUDIO_DIR,
+        };
         const dataObj = {
           nav,
           title: 'Jukebox: Music Player',
-          songs
+          playlist
         };
         res.render('jukebox', dataObj);
       } catch(err) {

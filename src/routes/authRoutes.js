@@ -67,7 +67,7 @@ function router(nav) {
 
   authRouter.route('/signin')
     .post(passport.authenticate('local', {
-      successRedirect: '/auth/profile',
+      successRedirect: '/jukebox',
       failureRedirect: '/',
     }));
 
