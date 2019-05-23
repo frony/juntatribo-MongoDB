@@ -3,7 +3,6 @@
 const express = require('express');
 const chalk = require('chalk');
 const debug = require('debug')('app');
-debug('here');
 const morgan = require('morgan');
 const path = require('path');
 const bodyParser = require('body-parser');
@@ -30,14 +29,16 @@ app.set('views', './src/views');
 app.set('view engine', 'ejs');
 
 const nav = [
-  { link: '/player', title: 'Music Player' },
+  { link: '/jukebox', title: 'Music Player' },
   { link: '/auth/profile', title: 'User Profile' }, // TODO: create profile router and move it out of auth profile
   { link: '/auth/logout', title: 'Log Out' }, // TODO: create profile router and move it out of auth profile
 ];
 
 const authRouter = require('./src/routes/authRoutes')(nav);
+const jukeboxRouter = require('./src/routes/jukeboxRoutes')(nav);
 
 app.use('/auth', authRouter);
+app.use('/jukebox', jukeboxRouter);
 
 app.get('/', (req, res) => {
   res.render(
@@ -50,6 +51,5 @@ app.get('/', (req, res) => {
 });
 
 app.listen(port, () => {
-  // console.log(`listening on port ${chalk.green(port)}`);
   debug(`listening on port ${chalk.green(port)}`);
 });
