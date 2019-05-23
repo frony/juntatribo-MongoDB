@@ -17,7 +17,7 @@ function localStrategy() {
     (async function mongo() {
       let client;
       try {
-        client = await MongoClient.connect(url);
+        client = await MongoClient.connect(url, { useNewUrlParser: true });
         debug('Connected correctly to server');
 
         const db = client.db(dbName);

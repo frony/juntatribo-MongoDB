@@ -15,7 +15,7 @@ function jukeboxController(nav) {
     (async function mongo(){
       let client;
       try {
-        client = await MongoClient.connect(url);
+        client = await MongoClient.connect(url, { useNewUrlParser: true });
         const db = client.db(dbName);
         const col = await db.collection(collectionName);
         const songs = await col.find().toArray();
