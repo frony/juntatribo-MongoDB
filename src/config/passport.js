@@ -10,11 +10,12 @@ function passportConfig(app) {
 
   // stores user in a session
   passport.serializeUser((user, done) => {
-    // done(null, user);
     const userProfile = {
       firstname: user.firstname,
       lastname: user.lastname,
-      email: user.username,
+      username: user.username,
+      email: user.email,
+      fullname: user.fullname,
     };
     done(null, userProfile);
   });

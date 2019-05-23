@@ -28,6 +28,8 @@ function localStrategy() {
           const userProfile = {
             firstname: user.firstname,
             lastname: user.lastname,
+            fullname: `${user.firstname} ${user.lastname}`,
+            username: user.username,
             email: user.username,
           };
           done(null, userProfile);

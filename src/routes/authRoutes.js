@@ -93,9 +93,11 @@ function router(nav) {
         {
           nav,
           title: 'Jukebox: profile',
+          username: req.user.username,
+          email: req.user.email,
+          fullname: req.user.fullname,
           firstname: req.user.firstname,
           lastname: req.user.lastname,
-          email: req.user.email,
         }
       );
     });
