@@ -3,7 +3,11 @@ node_modules
 *.swp
 .DS_Store
 
+# ejs template for this app
 index.html
+
+# audio files
+public/audio
 
 # ssl certificates folder
 ssl
@@ -41,20 +45,12 @@ npm-debug.log*
 *.idea
 */workspace.xml
 
-# Temporary documentation ignore
-/out
 
 # Ignore the development tests
 /devTest.js
 
 # Users Environment Variables
 .lock-wscript
-
-# Runtime configuration for swagger app
-config/runtime.yaml
-
-# MMU /internal/info generated file
-config/git-info.json
 
 # VSCODE
 .vscode
