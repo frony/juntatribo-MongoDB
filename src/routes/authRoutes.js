@@ -117,12 +117,18 @@ function router(nav) {
 
   authRouter.route('/signInError')
     .get((req, res) => {
+      // time out to delay brute force attack
+      const delayResponse = response => {
+        setTimeout(() => {
+          response();
+        }, 1000);
+      };
       const dataObj = {
         nav,
         title: 'Jukebox',
         errorMessage: 'The combination of email and password is not valid',
       };
-      return res.render('index', dataObj);
+      return delayResponse(() => res.render('index', dataObj));
     });
 
   authRouter.route('/logout')
