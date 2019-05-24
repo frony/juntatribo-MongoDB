@@ -8,6 +8,7 @@ const Promise = require('bluebird');
 const bcrypt = Promise.promisifyAll(require("bcrypt"));
 const debug = require('debug')('app:authRoutes');
 const config = require('../config/db.json');
+const { registrationSchema } = require('../helpers/validationSchema');
 
 function router(nav) {
   authRouter.route('/signup')
@@ -29,6 +30,30 @@ function router(nav) {
         password,
       } = req.body;
 
+      // validate form
+      req.checkBody(registrationSchema);
+      const errors = req.validationErrors();
+      debug(errors);
+
+      if (errors) {
+        const arrAcc = [];
+        const prunedErrors = errors.map(err => {
+          const param = err.param;
+          if (!arrAcc.includes(param)) {
+            arrAcc.push(param);
+            return err;
+          }
+        }).filter(err => typeof err !== "undefined");
+        debug(prunedErrors);
+        const errorObj = {
+          nav,
+          title: 'Jukebox: Sign Up',
+          errors: prunedErrors,
+        };
+        return res.render('signup', errorObj);
+      }
+
+      // set up mongo stuff
       const url = config.dbURL;
       const dbName = config.dbName;
       const colName = config.collectionUsersName;
@@ -64,7 +89,9 @@ function router(nav) {
             firstname,
             lastname,
             username,
+            email: username,
             password: hash,
+            created: Date.now(),
           };
 
           // insert user into DB
@@ -85,8 +112,18 @@ function router(nav) {
   authRouter.route('/signin')
     .post(passport.authenticate('local', {
       successRedirect: '/jukebox',
-      failureRedirect: '/',
+      failureRedirect: '/auth/signInError',
     }));
+
+  authRouter.route('/signInError')
+    .get((req, res) => {
+      const dataObj = {
+        nav,
+        title: 'Jukebox',
+        errorMessage: 'The combination of email and password is not valid',
+      };
+      return res.render('index', dataObj);
+    });
 
   authRouter.route('/logout')
     .get((req, res) => {

@@ -1,6 +1,13 @@
 
           <!-- Sign In-->
           <div class="row">
+              <div class="col-md-2 col-sm-3 text-center">
+                  <%if(typeof errorMessage != "undefined"){%>
+                  <div class="errorMessage"><%=errorMessage%></div>
+                  <%}%>
+              </div>
+          </div>
+          <div class="row">
             <br>
             <div class="col-md-2 col-sm-3 text-center">
               Sign In! Or <a href='/auth/signup'>sign up</a>

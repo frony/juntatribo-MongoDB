@@ -27,7 +27,6 @@ function localStrategy() {
 
         const user = await col.findOne({ username });
 
-
         if (user && user.password) {
           const passwordIsValid = await bcrypt.compareAsync(password, user.password);
           if (passwordIsValid) {
