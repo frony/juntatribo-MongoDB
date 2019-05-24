@@ -45,6 +45,17 @@ function router(nav) {
           // Use users collection
           const col = db.collection(colName);
 
+          // prevent existing email from signing up again
+          const existingUser = await col.findOne({ username });
+          if (existingUser) {
+            const dataObj = {
+              nav,
+              title: 'Jukebox: Sign Up',
+              errorMessage: 'Sorry, we could not complete your sign up',
+            };
+            return res.render('signup', dataObj);
+          }
+
           // encrypt password
           const hash = await bcrypt.hashAsync(password, 12);
 
@@ -61,7 +72,7 @@ function router(nav) {
           debug(results);
           req.login(results.ops[0], () => {
             debug('I am signed up after login!');
-            res.redirect('/auth/profile');
+            res.redirect('/jukebox');
           });
         } catch(err) {
           if (err) {
