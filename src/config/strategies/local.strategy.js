@@ -3,6 +3,8 @@
 const passport = require("passport");
 const { Strategy } = require('passport-local');
 const { MongoClient } = require('mongodb');
+const Promise = require('bluebird');
+const bcrypt = Promise.promisifyAll(require("bcrypt"));
 const debug = require('debug')('app:local.strategy');
 const config = require('../db.json');
 
@@ -25,15 +27,21 @@ function localStrategy() {
 
         const user = await col.findOne({ username });
 
-        if (user && user.password && user.password === password) {
-          const userProfile = {
-            firstname: user.firstname,
-            lastname: user.lastname,
-            fullname: `${user.firstname} ${user.lastname}`,
-            username: user.username,
-            email: user.username,
-          };
-          done(null, userProfile);
+
+        if (user && user.password) {
+          const passwordIsValid = await bcrypt.compareAsync(password, user.password);
+          if (passwordIsValid) {
+            const userProfile = {
+              firstname: user.firstname,
+              lastname: user.lastname,
+              fullname: `${user.firstname} ${user.lastname}`,
+              username: user.username,
+              email: user.username,
+            };
+            done(null, userProfile);
+          } else {
+            done(null, false);
+          }
         } else {
           done(null, false);
         }

@@ -4,6 +4,8 @@ const express = require('express');
 const authRouter = express.Router();
 const { MongoClient } = require('mongodb');
 const passport = require('passport');
+const Promise = require('bluebird');
+const bcrypt = Promise.promisifyAll(require("bcrypt"));
 const debug = require('debug')('app:authRoutes');
 const config = require('../config/db.json');
 
@@ -43,12 +45,15 @@ function router(nav) {
           // Use users collection
           const col = db.collection(colName);
 
+          // encrypt password
+          const hash = await bcrypt.hashAsync(password, 12);
+
           // set up user object to be inserted
           const user = {
             firstname,
             lastname,
             username,
-            password,
+            password: hash,
           };
 
           // insert user into DB
