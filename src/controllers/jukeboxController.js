@@ -30,6 +30,39 @@ function jukeboxController(nav) {
         };
         const dataObj = {
           nav,
+          title: 'Jukebox: Song List',
+          playlist
+        };
+        res.render('songlist', dataObj);
+      } catch(err) {
+        debug(err.stack);
+      }
+    }());
+  }
+
+  function playJukeBox(req, res) {
+    const url = config.dbURL;
+    const dbName = config.dbName;
+    const collectionName = config.collectionSongsName;
+
+    (async function mongo(){
+      let client;
+      try {
+        client = await MongoClient.connect(url, { useNewUrlParser: true });
+        const db = client.db(dbName);
+        const col = await db.collection(collectionName);
+        const songs = await col.find().toArray();
+        const playlist = {
+          name: 'test',
+          tags: [],
+          list: {
+            default: songs[0],
+            all: songs,
+          },
+          fileDir: AUDIO_DIR,
+        };
+        const dataObj = {
+          nav,
           title: 'Jukebox: Music Player',
           playlist
         };
@@ -50,6 +83,7 @@ function jukeboxController(nav) {
 
   return {
     getSongList,
+    playJukeBox,
     middleware,
   };
 }

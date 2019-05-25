@@ -39,6 +39,7 @@ app.set('view engine', 'ejs');
 
 const nav = [
   { link: '/jukebox', title: 'Music Player' },
+  { link: '/jukebox/songlist', title: 'Song List' },
   { link: '/auth/profile', title: 'User Profile' }, // TODO: create profile router and move it out of auth profile
   { link: '/auth/logout', title: 'Log Out' },
 ];
