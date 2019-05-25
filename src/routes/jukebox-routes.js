@@ -3,7 +3,7 @@
 const express = require('express');
 const jukeboxRouter = express.Router();
 const debug = require('debug')('app:jukebox');
-const jukeboxController = require('../controllers/jukeboxController');
+const jukeboxController = require('../controllers/jukebox-controller');
 
 function router(nav) {
   const { middleware, playJukeBox, getSongList } = jukeboxController(nav);

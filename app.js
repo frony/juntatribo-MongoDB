@@ -44,8 +44,8 @@ const nav = [
   { link: '/auth/logout', title: 'Log Out' },
 ];
 
-const authRouter = require('./src/routes/authRoutes')(nav);
-const jukeboxRouter = require('./src/routes/jukeboxRoutes')(nav);
+const authRouter = require('./src/routes/auth-routes')(nav);
+const jukeboxRouter = require('./src/routes/jukebox-routes')(nav);
 
 app.use('/auth', authRouter);
 app.use('/jukebox', jukeboxRouter);
