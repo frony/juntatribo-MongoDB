@@ -6,7 +6,6 @@ const bcrypt = Promise.promisifyAll(require("bcrypt"));
 const debug = require('debug')('app:authController');
 const config = require('../config/db.json');
 const { registrationSchema } = require('../helpers/validationSchema');
-// const AUDIO_DIR = '/audio/';
 
 function authController(nav) {
   function registerUser(req, res) {
