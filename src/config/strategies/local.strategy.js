@@ -5,9 +5,9 @@ const { Strategy } = require('passport-local');
 const connectionProvider = require('../../data-access/connection-provider');
 const Promise = require('bluebird');
 const bcrypt = Promise.promisifyAll(require("bcrypt"));
-const debug = require('debug')('app:config/strategies/local.strategy');
-const config = require('../db.json');
-const colName = config.collectionUsersName;
+const debug = require('debug')('app:dbSettings/strategies/local.strategy');
+const dbSettings = require('../db-settings');
+const colName = dbSettings.collectionUsersName;
 
 function localStrategy() {
   passport.use(new Strategy({
@@ -16,7 +16,7 @@ function localStrategy() {
   }, (username, password, done) => {
     (async function mongo() {
       try {
-        const db = await connectionProvider(config.dbURL, config.dbName);
+        const db = await connectionProvider(dbSettings.dbURL, dbSettings.dbName);
         debug('Connected correctly to server');
 
         const col = db.collection(colName);

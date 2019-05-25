@@ -1,17 +1,16 @@
 'use strict';
 
-// const { MongoClient, ObjectID } = require('mongodb');
 const debug = require('debug')('app:controllers/jukebox-controller');
-const config = require('../config/db.json');
 const connectionProvider = require('../data-access/connection-provider');
+const dbSettings = require('../config/db-settings');
+const collectionName = dbSettings.collectionSongsName;
 const AUDIO_DIR = '/audio/';
-const collectionName = config.collectionSongsName;
 
 function jukeboxController(nav) {
   function getSongList(req, res) {
     (async function mongo(){
       try {
-        const db = await connectionProvider(config.dbURL, config.dbName);
+        const db = await connectionProvider(dbSettings.dbURL, dbSettings.dbName);
         const col = await db.collection(collectionName);
         const songs = await col.find().toArray();
         const playlist = {
@@ -38,7 +37,7 @@ function jukeboxController(nav) {
   function playJukeBox(req, res) {
     (async function mongo(){
       try {
-        const db = await connectionProvider(config.dbURL, config.dbName);
+        const db = await connectionProvider(dbSettings.dbURL, dbSettings.dbName);
         const col = await db.collection(collectionName);
         const songs = await col.find().toArray();
         const playlist = {

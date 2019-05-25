@@ -5,9 +5,9 @@ const connectionProvider = require('../data-access/connection-provider');
 const Promise = require('bluebird');
 const bcrypt = Promise.promisifyAll(require("bcrypt"));
 const debug = require('debug')('app:contropllers/auth-controller');
-const config = require('../config/db.json');
+const dbSettings = require('../config/db-settings');
 const { registrationSchema } = require('../helpers/validation-schema');
-const colName = config.collectionUsersName;
+const colName = dbSettings.collectionUsersName;
 
 function authController(nav) {
   function registerUser(req, res) {
@@ -44,7 +44,7 @@ function authController(nav) {
 
     (async function addUser(){
       try {
-        const db = await connectionProvider(config.dbURL, config.dbName);
+        const db = await connectionProvider(dbSettings.dbURL, dbSettings.dbName);
         debug('Connected to mongo server');
 
         // Use users collection
