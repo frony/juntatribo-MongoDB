@@ -1,11 +1,13 @@
 'use strict';
 
-const { MongoClient, ObjectID } = require('mongodb');
+// const { MongoClient, ObjectID } = require('mongodb');
+const connectionProvider = require('../data-access/connection-provider');
 const Promise = require('bluebird');
 const bcrypt = Promise.promisifyAll(require("bcrypt"));
-const debug = require('debug')('app:authController');
+const debug = require('debug')('app:contropllers/auth-controller');
 const config = require('../config/db.json');
 const { registrationSchema } = require('../helpers/validation-schema');
+const colName = config.collectionUsersName;
 
 function authController(nav) {
   function registerUser(req, res) {
@@ -40,19 +42,10 @@ function authController(nav) {
       return res.render('signup', errorObj);
     }
 
-    // set up mongo stuff
-    const url = config.dbURL;
-    const dbName = config.dbName;
-    const colName = config.collectionUsersName;
-
     (async function addUser(){
-      let client;
       try {
-        client = await MongoClient.connect(url, { useNewUrlParser: true } );
+        const db = await connectionProvider(config.dbURL, config.dbName);
         debug('Connected to mongo server');
-
-        // Use jukebox database
-        const db = client.db(dbName);
 
         // Use users collection
         const col = db.collection(colName);

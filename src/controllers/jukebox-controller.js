@@ -1,22 +1,17 @@
 'use strict';
 
-const { MongoClient, ObjectID } = require('mongodb');
-const debug = require('debug')('app:jukeboxController');
+// const { MongoClient, ObjectID } = require('mongodb');
+const debug = require('debug')('app:controllers/jukebox-controller');
 const config = require('../config/db.json');
+const connectionProvider = require('../data-access/connection-provider');
 const AUDIO_DIR = '/audio/';
-
+const collectionName = config.collectionSongsName;
 
 function jukeboxController(nav) {
   function getSongList(req, res) {
-    const url = config.dbURL;
-    const dbName = config.dbName;
-    const collectionName = config.collectionSongsName;
-
     (async function mongo(){
-      let client;
       try {
-        client = await MongoClient.connect(url, { useNewUrlParser: true });
-        const db = client.db(dbName);
+        const db = await connectionProvider(config.dbURL, config.dbName);
         const col = await db.collection(collectionName);
         const songs = await col.find().toArray();
         const playlist = {
@@ -41,15 +36,9 @@ function jukeboxController(nav) {
   }
 
   function playJukeBox(req, res) {
-    const url = config.dbURL;
-    const dbName = config.dbName;
-    const collectionName = config.collectionSongsName;
-
     (async function mongo(){
-      let client;
       try {
-        client = await MongoClient.connect(url, { useNewUrlParser: true });
-        const db = client.db(dbName);
+        const db = await connectionProvider(config.dbURL, config.dbName);
         const col = await db.collection(collectionName);
         const songs = await col.find().toArray();
         const playlist = {
