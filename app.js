@@ -8,9 +8,8 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const cookieParser = require('cookie-parser');
-const session = require('express-session');
+const sessionManagement = require('./src/config/session-management');
 const expressLayouts = require('express-ejs-layouts');
-const config = require('./src/config/common.json');
 const expressValidator = require('express-validator');
 const app = express();
 const port = process.env.PORT || 3333;
@@ -20,11 +19,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(expressValidator());
 app.use(cookieParser());
-app.use(session({
-  secret: config.sessionSecret,
-  resave: false,
-  saveUninitialized: false,
-}));
+sessionManagement(app);
 
 require('./src/config/passport.js')(app);
 
