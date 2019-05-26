@@ -7,17 +7,17 @@ const debug = require('debug')('app:data-access/connection-provider')
 const _internalConnectionPool = {};
 
 function connectionProvider(url, database, options) {
-/*  const opts = Object.assign({}, {
-    server: { poolSize: 5 },
-  }, options);*/
+  const opts = Object.assign({}, {
+    useNewUrlParser: true,
+  }, options);
 
   return new Promise((resolve, reject) => {
     const address = `${url}/${database}`;
     if (!(_internalConnectionPool[address])) {
-      (async function getDB(){
+      (async function getDB() {
         let client;
         try {
-          client = await MongoClient.connect(url, { useNewUrlParser: true });
+          client = await MongoClient.connect(url, opts);
           const db = client.db(database);
           debug('Connected to mongo server');
 

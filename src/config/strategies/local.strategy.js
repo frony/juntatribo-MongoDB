@@ -9,6 +9,9 @@ const debug = require('debug')('app:dbSettings/strategies/local.strategy');
 const dbSettings = require('../db-settings');
 const colName = dbSettings.collectionUsersName;
 
+/**
+ * Local strategy for passport
+ */
 function localStrategy() {
   passport.use(new Strategy({
     usernameField: 'username',
@@ -43,9 +46,6 @@ function localStrategy() {
       } catch(err) {
         console.log(err.stack); // TODO: use winston
       }
-
-      // close connection
-      client.close();
     }());
   }));
 }
