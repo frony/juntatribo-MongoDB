@@ -6,6 +6,14 @@ const debug = require('debug')('app:data-access/connection-provider')
 
 const _internalConnectionPool = {};
 
+/**
+ * Creates a pool of mongodb connections
+ *  and return a mongodb connection as a promise
+ * @param {String} url The mongodb server URL
+ * @param {String} database The mongodb database to connect to
+ * @param {Object} options Custom connection configuration
+ * @return Promise
+ */
 function connectionProvider(url, database, options) {
   const opts = Object.assign({}, {
     useNewUrlParser: true,

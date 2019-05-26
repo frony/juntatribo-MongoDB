@@ -2,9 +2,15 @@
 
 const express = require('express');
 const jukeboxRouter = express.Router();
-const debug = require('debug')('app:jukebox');
 const jukeboxController = require('../controllers/jukebox-controller');
 
+/**
+ * Routes to jukebox and songlist pages
+ * @param {Object} nav The navigation object
+ * @param {String} link The link to the page
+ * @param {String} title The page name
+ * @returns {Router|router}
+ */
 function router(nav) {
   const { middleware, playJukeBox, getSongList } = jukeboxController(nav);
   jukeboxRouter.use(middleware);

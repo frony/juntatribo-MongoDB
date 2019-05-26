@@ -6,6 +6,14 @@ const dbSettings = require('../config/db-settings');
 const collectionName = dbSettings.collectionSongsName;
 const AUDIO_DIR = '/audio/';
 
+/**
+ * Controller for returning a list of songs
+ *  either for listing on a page or for playing
+ * @param {Object} nav The navigation object
+ * @param {String} link The link to the page
+ * @param {String} title The page name
+ * @returns {{getSongList, playJukeBox, middleware}}
+ */
 function jukeboxController(nav) {
   function getSongList(req, res) {
     (async function mongo(){
