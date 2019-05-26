@@ -2,7 +2,6 @@
 
 const session = require('express-session');
 const MongoDBStoreFactory = require('connect-mongodb-session');
-const connectionProvider = require('../data-access/connection-provider');
 const dbSettings = require('./db-settings');
 const config = require('./common.json');
 const debug = require('debug')('app:config/session-management');
@@ -15,9 +14,12 @@ function sessionManagementConfig(app) {
   const MongoDBStore = MongoDBStoreFactory(session);
 
   const store = new MongoDBStore({
-    uri: 'mongodb://localhost:27017/connect_mongodb_session_test',
+    uri: `${dbSettings.dbURL}/${dbSettings.collections.session}`,
     collection: 'mySessions',
     ttl:  1000 * 60 * 60,
+  },
+  (error) => {
+    debug(error);
   });
 
   // Catch errors

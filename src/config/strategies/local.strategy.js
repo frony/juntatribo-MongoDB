@@ -7,7 +7,7 @@ const Promise = require('bluebird');
 const bcrypt = Promise.promisifyAll(require("bcrypt"));
 const debug = require('debug')('app:dbSettings/strategies/local.strategy');
 const dbSettings = require('../db-settings');
-const colName = dbSettings.collectionUsersName;
+const colName = dbSettings.collections.users;
 
 /**
  * Local strategy for passport

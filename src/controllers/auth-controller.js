@@ -7,7 +7,7 @@ const bcrypt = Promise.promisifyAll(require("bcrypt"));
 const debug = require('debug')('app:contropllers/auth-controller');
 const dbSettings = require('../config/db-settings');
 const { registrationSchema } = require('../helpers/validation-schema');
-const colName = dbSettings.collectionUsersName;
+const colName = dbSettings.collections.users;
 
 function authController(nav) {
   function registerUser(req, res) {

@@ -3,7 +3,7 @@
 const debug = require('debug')('app:controllers/jukebox-controller');
 const connectionProvider = require('../data-access/connection-provider');
 const dbSettings = require('../config/db-settings');
-const collectionName = dbSettings.collectionSongsName;
+const collectionName = dbSettings.collections.songs;
 const AUDIO_DIR = '/audio/';
 
 /**
