@@ -48,6 +48,17 @@ function router(nav) {
       return delayResponse(() => res.render('index', dataObj));
     });
 
+  authRouter.route('/signUpError')
+    .get((req, res) => {
+      const errorMessage = 'There was a problem with your registration, please try again';
+      const dataObj = {
+        nav,
+        title: 'Jukebox: Sign Up',
+        errorMessage,
+      };
+      res.render('signup', dataObj)
+    });
+
   authRouter.route('/logout')
     .get((req, res) => {
       if (req.user) {
