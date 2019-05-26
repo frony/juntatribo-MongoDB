@@ -6,6 +6,10 @@ const dbSettings = require('./db-settings');
 const config = require('./common.json');
 const debug = require('debug')('app:config/session-management');
 
+/**
+ * Session middleware that sets mongodb as the session store
+ * @param{Object} app
+ */
 function sessionManagementConfig(app) {
   session.Session.prototype.login = (user) => {
     req.userInfo = user;

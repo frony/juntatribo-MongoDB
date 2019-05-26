@@ -9,6 +9,16 @@ const dbSettings = require('../config/db-settings');
 const { registrationSchema } = require('../helpers/validation-schema');
 const colName = dbSettings.collections.users;
 
+/**
+ * Validates the signup form,
+ *  registers user in the database,
+ *  automatically logs in the user
+ *  and redirect to jukebox page
+ * @param {Object} nav The navigation object
+ * @param {String} link The link to the page
+ * @param {String} title The page name
+ * @return {{registerUser: registerUser}}
+ */
 function authController(nav) {
   function registerUser(req, res) {
     debug('Signing up!');

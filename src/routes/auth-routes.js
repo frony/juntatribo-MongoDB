@@ -5,6 +5,13 @@ const authRouter = express.Router();
 const passport = require('passport');
 const authController = require('../controllers/auth-controller');
 
+/**
+ * Routes to Sign Up, signin, logout and view profile pages
+ * @param {Object} nav The navigation object
+ * @param {String} link The link to the page
+ * @param {String} title The page name
+ * @return {Router|router}
+ */
 function router(nav) {
   const { registerUser } = authController(nav);
   authRouter.route('/signup')

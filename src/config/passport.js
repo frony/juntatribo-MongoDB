@@ -4,6 +4,11 @@ const passport = require('passport');
 require('./strategies/local.strategy')();
 const debug = require('debug')('app:passport');
 
+/**
+ * Stores user in a session
+ * and retrieves user from session
+ * @param {Object} app
+ */
 function passportConfig(app) {
   app.use(passport.initialize());
   app.use(passport.session());
