@@ -32,7 +32,7 @@ function connectionProvider(url, database, options) {
           _internalConnectionPool[address] = db;
           resolve(_internalConnectionPool[address]);
         } catch (err) {
-          reject(err)
+          reject(err);
         }
       }());
     } else {

@@ -1,10 +1,18 @@
 'use strict';
 
+// const { MongoClient, ObjectID } = require('mongodb');
+const formidable = require('formidable');
+const fs = require('fs');
+const util = require('util');
 const debug = require('debug')('app:controllers/jukebox-controller');
 const connectionProvider = require('../data-access/connection-provider');
 const dbSettings = require('../config/db-settings');
 const collectionName = dbSettings.collections.songs;
+const { getSongList, createSong } = require('../models/jukebox-model')();
 const AUDIO_DIR = '/audio/';
+
+const path = require('path');
+const appDir = path.dirname(require.main.filename);
 
 /**
  * Controller for returning a list of songs
@@ -15,31 +23,45 @@ const AUDIO_DIR = '/audio/';
  * @returns {{getSongList, playJukeBox, middleware}}
  */
 function jukeboxController(nav) {
-  function getSongList(req, res) {
-    (async function mongo(){
-      try {
-        const db = await connectionProvider(dbSettings.dbURL, dbSettings.dbName);
-        const col = await db.collection(collectionName);
-        const songs = await col.find().toArray();
-        const playlist = {
-          name: 'test',
-          tags: [],
-          list: {
-            default: songs[0],
-            all: songs,
-          },
-          fileDir: AUDIO_DIR,
-        };
+  function songList(req, res) {
+    getSongList()
+      .then(songs => {
         const dataObj = {
           nav,
           title: 'Jukebox: Song List',
-          playlist
+          songs
         };
-        res.render('songlist', dataObj);
-      } catch(err) {
+        res.render('songList', dataObj);
+      })
+      .catch(err => {
         debug(err.stack);
+      });
+  }
+
+  function getSongForm(req, res) {
+    res.render(
+      'songForm',
+      {
+        nav,
+        title: 'Jukebox: Add Song',
       }
-    }());
+    );
+  }
+
+  function addSong(req, res) {
+    const form = new formidable.IncomingForm();
+    form.parse(req, function(err, fields, files) {
+      createSong(fields, files)
+        .then(song => {
+          const dataObject = {
+            nav,
+
+          };
+        })
+        .catch(err => {
+          debug(err);
+        });
+    });
   }
 
   function playJukeBox(req, res) {
@@ -78,7 +100,9 @@ function jukeboxController(nav) {
   }
 
   return {
-    getSongList,
+    songList,
+    getSongForm,
+    addSong,
     playJukeBox,
     middleware,
   };

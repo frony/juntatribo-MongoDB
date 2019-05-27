@@ -1,0 +1,29 @@
+<!--/song form-->
+<div class="row">
+    <div class="col-md-2 col-sm-3"></div>
+    <div class="col-md-10 col-sm-3">
+        <h3>Add song</h3>
+        <div class="row">
+            <form name="addSongForm" action="/jukebox/addSong" method="post" enctype="multipart/form-data">
+                <label for="title">Song Title</label>
+                <input name="title" id="title"/><br/>
+
+                <label for="artist">Artist</label>
+                <input name="artist" id="artist"/><br/>
+
+                <label for="file">Upload a song file</label>
+                <input name="file" id="file" type="file"/>
+                <br/>
+
+                <label for="genre">Genre (separated by commas)</label>
+                <input name="genre" id="genre"/><br/>
+
+                <label for="tags">Tags (separated by commas)</label>
+                <input name="tags" id="tags"/><br/>
+
+                <input type="submit" value="Add Song" />
+            </form>
+        </div>
+    </div>
+</div>
+<hr>
