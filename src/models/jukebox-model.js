@@ -1,7 +1,6 @@
 'use script';
 
 const Promise = require('bluebird');
-
 const debug = require('debug')('app:models/jukebox-model');
 const connectionProvider = require('../data-access/connection-provider');
 const dbSettings = require('../config/db-settings');
@@ -20,6 +19,10 @@ const rename = promisify(fs.rename);
 const mkdir = promisify(fs.mkdir);
 
 function jukeboxModel() {
+  /**
+   * Get a list of songs
+   * @return {Promise<void>}
+   */
   async function getSongList() {
     try {
       const db = await connectionProvider(dbURL, dbName);
@@ -31,8 +34,18 @@ function jukeboxModel() {
     }
   }
 
+  /**
+   * Upload a music file
+   *  and upsert a song into the database
+   * @param {Object} fields
+   * @param {Object} files
+   * @return {Promise<void>}
+   */
   async function createSong(fields, files) {
     return new Promise((resolve, reject) => {
+      if (files.file.size < 1) {
+        throw Error('There was a problem uploading the file and saving the song');
+      }
       const oldpath = files.file.path;
       const newpath = `${AUDIO_PATH}/${files.file.name}`;
 
@@ -93,10 +106,10 @@ function jukeboxModel() {
             // return song result
             resolve(response);
           }
-          reject({message: 'There was a problem uploading the file and saving the song'});
+          reject(Error('There was a problem uploading the file and saving the song'));
         } catch(err) {
           debug(err);
-          reject({message: 'There was a problem uploading the file and saving the song'});
+          reject(err);
         }
 
       }());

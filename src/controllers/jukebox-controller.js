@@ -18,6 +18,11 @@ const AUDIO_DIR = '/audio/';
  * @returns {{getSongList, playJukeBox, middleware}}
  */
 function jukeboxController(nav) {
+  /**
+   * Display a list of songs
+   * @param req
+   * @param res
+   */
   function songList(req, res) {
     getSongList()
       .then(songs => {
@@ -48,6 +53,12 @@ function jukeboxController(nav) {
     );
   }
 
+  /**
+   * Upload a music file
+   *  and upsert a song into the database
+   * @param req
+   * @param res
+   */
   function addSong(req, res) {
     const form = new formidable.IncomingForm();
     form.parse(req, function(err, fields, files) {
@@ -81,6 +92,11 @@ function jukeboxController(nav) {
     });
   }
 
+  /**
+   * Play a playlist in the music player
+   * @param req
+   * @param res
+   */
   function playJukeBox(req, res) {
     (async function mongo(){
       try {
@@ -108,6 +124,12 @@ function jukeboxController(nav) {
     }());
   }
 
+  /**
+   * Verify if user is still logged in
+   * @param req
+   * @param res
+   * @param next
+   */
   function middleware(req, res, next) {
     if (req.user) {
       next()
