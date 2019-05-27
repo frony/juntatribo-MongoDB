@@ -16,7 +16,7 @@ function router(nav) {
     middleware,
     playJukeBox,
     songList,
-    getSongForm,
+    getAddSongForm,
     addSong,
   } = jukeboxController(nav);
 
@@ -26,7 +26,7 @@ function router(nav) {
     .get(playJukeBox);
 
   jukeboxRouter.route('/addSong')
-    .get(getSongForm)
+    .get(getAddSongForm)
     .post(addSong);
 
   jukeboxRouter.route('/songList')

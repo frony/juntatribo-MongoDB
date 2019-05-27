@@ -79,14 +79,14 @@ function jukeboxModel() {
             );
             debug(result);
 
-            let action = 'update';
+            let resultAction = 'update';
             if (result.upsertedCount === 1) {
-              action = 'insert';
+              resultAction = 'insert';
             }
 
             const newSong = await col.findOne({ 'file.fileName': files.file.name });
             const response = {
-              action,
+              resultAction,
               newSong,
             };
 

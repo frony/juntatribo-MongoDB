@@ -2,17 +2,12 @@
 
 // const { MongoClient, ObjectID } = require('mongodb');
 const formidable = require('formidable');
-const fs = require('fs');
-const util = require('util');
 const debug = require('debug')('app:controllers/jukebox-controller');
 const connectionProvider = require('../data-access/connection-provider');
 const dbSettings = require('../config/db-settings');
 const collectionName = dbSettings.collections.songs;
 const { getSongList, createSong } = require('../models/jukebox-model')();
 const AUDIO_DIR = '/audio/';
-
-const path = require('path');
-const appDir = path.dirname(require.main.filename);
 
 /**
  * Controller for returning a list of songs
@@ -38,7 +33,12 @@ function jukeboxController(nav) {
       });
   }
 
-  function getSongForm(req, res) {
+  /**
+   * Render form to add song
+   * @param req
+   * @param res
+   */
+  function getAddSongForm(req, res) {
     res.render(
       'songForm',
       {
@@ -54,11 +54,11 @@ function jukeboxController(nav) {
       createSong(fields, files)
         .then(response => {
           const {
-            action,
+            resultAction,
             newSong: song,
           } = response;
 
-          const actionVerb = action === 'update' ? 'updated' : 'added';
+          const actionVerb = resultAction === 'update' ? 'updated' : 'added';
           const message = `The song ${song.title} was successfully ${actionVerb}`;
 
           const dataObj = {
@@ -118,7 +118,7 @@ function jukeboxController(nav) {
 
   return {
     songList,
-    getSongForm,
+    getAddSongForm,
     addSong,
     playJukeBox,
     middleware,
