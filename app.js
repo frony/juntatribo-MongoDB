@@ -13,6 +13,7 @@ const expressLayouts = require('express-ejs-layouts');
 const expressValidator = require('express-validator');
 const app = express();
 const port = process.env.PORT || 3333;
+const nav = require('./src/config/navigation')();
 
 app.use(morgan('tiny'));
 app.use(bodyParser.json());
@@ -31,13 +32,6 @@ app.use(expressLayouts);
 
 app.set('views', './src/views');
 app.set('view engine', 'ejs');
-
-const nav = [
-  { link: '/jukebox', title: 'Music Player' },
-  { link: '/jukebox/songlist', title: 'Song List' },
-  { link: '/auth/profile', title: 'User Profile' }, // TODO: create profile router and move it out of auth profile
-  { link: '/auth/logout', title: 'Log Out' },
-];
 
 const authRouter = require('./src/routes/auth-routes')(nav);
 const jukeboxRouter = require('./src/routes/jukebox-routes')(nav);
