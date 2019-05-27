@@ -3,6 +3,9 @@
     <div class="col-md-2 col-sm-3"></div>
     <div class="col-md-10 col-sm-3">
         <h3>Add song</h3>
+        <%if(typeof message !== "undefined"){%>
+        <p><%=message%></p>
+        <%}%>
         <div class="row">
             <form name="addSongForm" action="/jukebox/addSong" method="post" enctype="multipart/form-data">
                 <label for="title">Song Title</label>

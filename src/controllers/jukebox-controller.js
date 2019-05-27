@@ -52,14 +52,31 @@ function jukeboxController(nav) {
     const form = new formidable.IncomingForm();
     form.parse(req, function(err, fields, files) {
       createSong(fields, files)
-        .then(song => {
-          const dataObject = {
-            nav,
+        .then(response => {
+          const {
+            action,
+            newSong: song,
+          } = response;
 
+          const actionVerb = action === 'update' ? 'updated' : 'added';
+          const message = `The song ${song.title} was successfully ${actionVerb}`;
+
+          const dataObj = {
+            nav,
+            title: `Jukebox: ${song.title}`,
+            songs: [song],
+            message,
           };
+          res.render('songList', dataObj);
         })
-        .catch(err => {
-          debug(err);
+        .catch(error => {
+          debug(error);
+          const dataObj = {
+            nav,
+            title: 'Jukebox: Add Song',
+            message: error.message,
+          };
+          res.render('songForm', dataObj);
         });
     });
   }

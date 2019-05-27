@@ -48,15 +48,15 @@ function jukeboxModel() {
 
         try {
           // upload file to AUDIO_PATH
-          const uploaded = rename(oldpath, newpath);
+          const isUploaded = rename(oldpath, newpath);
 
           // add song to database
-          if (uploaded) {
+          if (isUploaded) {
             const db = await connectionProvider(dbURL, dbName);
             const col = await db.collection(colName);
 
-            const arrGenre = fields.genre.split(',');
-            const arrTags = fields.tags.split(',');
+            const arrGenre = fields.genre.split(',').map(item => item.trim());
+            const arrTags = fields.tags.split(',').map(item => item.trim());
 
             const song = {
               title: fields.title,
@@ -72,14 +72,31 @@ function jukeboxModel() {
               },
               createdAt: Date.now(),
             };
-            const results = await col.insertOne(song);
+            const result = await col.updateOne(
+              { 'file.fileName': files.file.name },
+              { $set: song },
+              { upsert: true }
+            );
+            debug(result);
+
+            let action = 'update';
+            if (result.upsertedCount === 1) {
+              action = 'insert';
+            }
+
+            const newSong = await col.findOne({ 'file.fileName': files.file.name });
+            const response = {
+              action,
+              newSong,
+            };
 
             // return song result
-            resolve(results.ops[0]);
+            resolve(response);
           }
-          reject({err: 'There was a problem uploading the file and saving the song'});
+          reject({message: 'There was a problem uploading the file and saving the song'});
         } catch(err) {
           debug(err);
+          reject({message: 'There was a problem uploading the file and saving the song'});
         }
 
       }());
