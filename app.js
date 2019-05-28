@@ -11,6 +11,7 @@ const cookieParser = require('cookie-parser');
 const sessionManagement = require('./src/config/session-management');
 const expressLayouts = require('express-ejs-layouts');
 const expressValidator = require('express-validator');
+const cors = require('cors');
 const app = express();
 const port = process.env.PORT || 3333;
 const nav = require('./src/config/navigation')();
@@ -29,6 +30,7 @@ app.use('/css', express.static(path.join(__dirname, '/node_modules/bootstrap/dis
 app.use('/js', express.static(path.join(__dirname, '/node_modules/bootstrap/dist/js')));
 app.use('/js', express.static(path.join(__dirname, '/node_modules/jquery/dist')));
 app.use(expressLayouts);
+app.use(cors());
 
 app.set('views', './src/views');
 app.set('view engine', 'ejs');
