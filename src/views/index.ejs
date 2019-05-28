@@ -1,0 +1,21 @@
+
+          <!-- Sign In-->
+          <div class="row">
+              <div class="col-md-2 col-sm-3 text-center">
+                  <%if(typeof errorMessage != "undefined"){%>
+                  <div class="errorMessage"><%=errorMessage%></div>
+                  <%}%>
+              </div>
+          </div>
+          <div class="row">
+            <br>
+            <div class="col-md-2 col-sm-3 text-center">
+              Sign In! Or <a href='/auth/signup'>sign up</a>
+              <form name="signInForm" action="/auth/signin" method="post">
+                UserName: <input name="username" id="username"/><br/>
+                Password: <input name="password" id="password"/><br/>
+                <input type="submit" value="Sign in" />
+              </form>
+            </div>
+          </div>
+          <hr>

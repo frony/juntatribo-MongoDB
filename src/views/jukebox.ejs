@@ -1,0 +1,54 @@
+<h2>Playlist: <%=playlist.name%></h2>
+<audio id="audio" preload="auto" tabindex="0" controls autoplay>
+    <source src="/audio/<%=playlist.list.default.file%>">
+</audio>
+
+<ul id="playlist">
+    <%for(let i = 0, maxLen = playlist.list.all.length; i < maxLen; i++) {%>
+        <li class="'active">
+            <a href="<%=playlist.list.all[i].file%>" data-file-key="<%i%>">
+                <%=playlist.list.all[i].title%> - <%=playlist.list.all[i].artist%>
+            </a>
+        </li>
+    <%}%>
+</ul>
+
+
+
+<script type='text/javascript'>
+  (function init() {
+    console.log("========= function init ========");
+
+    let current = 2;
+    const AUDIO_DIR = '/audio/';
+    const playlist = $('#playlist');
+    const tracks = playlist.find('li a');
+    const maxTracks = tracks.length;
+    const audio = $('audio')[0];
+    audio.volume = .50;
+
+    function run(link, player) {
+      console.log("========= function run ========");
+      player.src = `${AUDIO_DIR}${link}`;
+      player.load();
+      player.play();
+    }
+
+    playlist.find('a').click(function (e) {
+      e.preventDefault();
+      console.log("========= playlist.find ========");
+      const fileName = $(this).attr('href');
+      current = $(this).attr('data-file-key');
+      run(fileName, audio);
+    });
+    audio.addEventListener('ended', () => {
+      current++;
+      if (current == maxTracks) {
+        current = 0;
+      }
+      const fileName = $(tracks[current]).attr('href');
+      console.log(`fileName: ${fileName}`);
+      run(fileName, audio);
+    });
+  })();
+</script>
