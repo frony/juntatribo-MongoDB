@@ -3,9 +3,6 @@
 // const { MongoClient, ObjectID } = require('mongodb');
 const formidable = require('formidable');
 const debug = require('debug')('app:controllers/jukebox-controller');
-const connectionProvider = require('../data-access/connection-provider');
-const dbSettings = require('../config/db-settings');
-const collectionName = dbSettings.collections.songs;
 const { validateSongForm } = require('../helpers/form-validation')();
 const { getSongList, createSong } = require('../models/jukebox-model')();
 const AUDIO_DIR = '/audio/';
@@ -26,7 +23,7 @@ function jukeboxController(nav) {
    * @param res
    */
   function songList(req, res) {
-    getSongList()
+    getSongList(req.query)
       .then(songs => {
         const dataObj = {
           nav,
@@ -118,11 +115,8 @@ function jukeboxController(nav) {
    * @param res
    */
   function playJukeBox(req, res) {
-    (async function mongo(){
-      try {
-        const db = await connectionProvider(dbSettings.dbURL, dbSettings.dbName);
-        const col = await db.collection(collectionName);
-        const songs = await col.find().toArray();
+    getSongList(req.query)
+      .then(songs => {
         const playlist = {
           name: 'test',
           tags: [],
@@ -138,10 +132,16 @@ function jukeboxController(nav) {
           playlist
         };
         res.render('jukebox', dataObj);
-      } catch(err) {
+      })
+      .catch(err => {
         debug(err.stack);
-      }
-    }());
+        const dataObj = {
+          nav,
+          title: 'Jukebox: Music Player',
+          errorMessage: err,
+        };
+        res.render('songList', dataObj);
+      });
   }
 
   /**

@@ -6,7 +6,8 @@ const connectionProvider = require('../data-access/connection-provider');
 const dbSettings = require('../config/db-settings');
 const dbURL = dbSettings.dbURL;
 const dbName = dbSettings.dbName;
-const colName = dbSettings.collections.songs;
+const songsColName = dbSettings.collections.songs;
+const playListColName = dbSettings.collections.playlists;
 
 const path = require('path');
 const appDir = path.dirname(require.main.filename);
@@ -23,16 +24,19 @@ function jukeboxModel() {
    * Get a list of songs
    * @return {Promise<void>}
    */
-  async function getSongList() {
+  async function getSongList(query, colName=songsColName) {
     try {
       const db = await connectionProvider(dbURL, dbName);
       const col = await db.collection(colName);
-      const songs = await col.find().toArray();
-      return songs;
+      return await col.find(query).toArray();
     } catch(err) {
       debug(err.stack);
     }
   }
+
+/*  function createPlaylist() {
+
+  }*/
 
   /**
    * Upload a music file
@@ -66,7 +70,7 @@ function jukeboxModel() {
           // add song to database
           if (isUploaded) {
             const db = await connectionProvider(dbURL, dbName);
-            const col = await db.collection(colName);
+            const col = await db.collection(songsColName);
 
             const arrGenre = fields.genre.split(',').map(item => item.trim());
             const arrTags = fields.tags.split(',').map(item => item.trim());
@@ -75,7 +79,7 @@ function jukeboxModel() {
               title: fields.title,
               artist: fields.artist,
               genre: arrGenre,
-              arrTags: arrTags,
+              tags: arrTags,
               file: {
                 fileName: files.file.name,
                 size: files.file.size,

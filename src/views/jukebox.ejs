@@ -1,19 +1,17 @@
 <h2>Playlist: <%=playlist.name%></h2>
 <audio id="audio" preload="auto" tabindex="0" controls autoplay>
-    <source src="/audio/<%=playlist.list.default.file%>">
+    <source src="/audio/<%=playlist.list.default.file.fileName%>">
 </audio>
 
 <ul id="playlist">
     <%for(let i = 0, maxLen = playlist.list.all.length; i < maxLen; i++) {%>
         <li class="'active">
-            <a href="<%=playlist.list.all[i].file%>" data-file-key="<%i%>">
+            <a href="<%=playlist.list.all[i].file.fileName%>" data-file-key="<%i%>">
                 <%=playlist.list.all[i].title%> - <%=playlist.list.all[i].artist%>
             </a>
         </li>
     <%}%>
 </ul>
-
-
 
 <script type='text/javascript'>
   (function init() {
@@ -50,5 +48,5 @@
       console.log(`fileName: ${fileName}`);
       run(fileName, audio);
     });
-  })();
+  }());
 </script>
