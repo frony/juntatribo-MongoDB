@@ -6,12 +6,14 @@ const debug = require('debug')('app:controllers/jukebox-controller');
 const connectionProvider = require('../data-access/connection-provider');
 const dbSettings = require('../config/db-settings');
 const collectionName = dbSettings.collections.songs;
+const { validateSongForm } = require('../helpers/form-validation')();
 const { getSongList, createSong } = require('../models/jukebox-model')();
 const AUDIO_DIR = '/audio/';
 
 /**
- * Controller for returning a list of songs
- *  either for listing on a page or for playing
+ * Controller for:
+ *  - returning a list of songs
+ *  - send a playlist to the music player
  * @param {Object} nav The navigation object
  * @param {String} link The link to the page
  * @param {String} title The page name
@@ -62,6 +64,24 @@ function jukeboxController(nav) {
   function addSong(req, res) {
     const form = new formidable.IncomingForm();
     form.parse(req, function(err, fields, files) {
+      if (err) {
+        throw err;
+      }
+
+      // validate form
+      const validationErrors = validateSongForm(fields, files.file);
+      debug(validationErrors);
+      if (validationErrors && validationErrors.length > 0) {
+        const errorObj = {
+          nav,
+          title: 'Jukebox: Add Song',
+          errors: validationErrors,
+        };
+        return res.render('songForm', errorObj);
+      }
+
+      // form was validated
+      // song entry can be created
       createSong(fields, files)
         .then(response => {
           const {

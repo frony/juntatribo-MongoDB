@@ -21,6 +21,41 @@ exports.registrationSchema = {
   }
 };
 
+exports.songSchema = {
+  'title': {
+    notEmpty: true,
+    isAlphanumeric: true,
+    errorMessage: `The song title can't be empty and must be alphanumeric`,
+  },
+
+  'artist': {
+    notEmpty: true,
+    isAlphanumeric: true,
+    errorMessage: `The artist name can't be empty and must be alphanumeric`,
+  },
+
+  'genre': {
+    notEmpty: true,
+    isAlphanumeric: true,
+    errorMessage: `The genre can't be empty and must be alphanumeric, separated by commas`,
+  },
+
+  'tags': {
+    notEmpty: true,
+    isAlphanumeric: true,
+    errorMessage: `The tags can't be empty and must be alphanumeric, separated by commas`,
+  },
+
+  'file': {
+    notEmpty: true,
+    isAlphanumeric: true,
+    errorMessage: `The music file can't be empty`,
+    fileType: {
+      errorMessage: `Please upload the correct file type`,
+    }
+  }
+};
+
 exports.timelineRangeSchema = {
   'startDate' : {
     isDate: true,
