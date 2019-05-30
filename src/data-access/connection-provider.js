@@ -14,7 +14,7 @@ const _internalConnectionPool = {};
  * @param {Object} options Custom connection configuration
  * @return Promise
  */
-function connectionProvider(url, database, options) {
+function connectionProvider(url, database, options={}) {
   const opts = Object.assign({}, {
     useNewUrlParser: true,
   }, options);

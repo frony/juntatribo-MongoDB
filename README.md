@@ -30,5 +30,8 @@ This project started on May 21st, 2019. It still has a long way to go. This is a
 - Improve error messages
 - Sanitize forms
 - csurf
+- Use Redis for session store
+- Save configuration in zookeeper
+- Dockerize app
 
 **The list above addresses the more urgent tasks and dos not incldue the tasks for building the whole JuntaTribo project.**

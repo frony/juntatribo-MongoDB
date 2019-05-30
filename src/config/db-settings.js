@@ -6,6 +6,7 @@ module.exports = {
   collections: {
     users: 'users',
     songs: 'songs',
+    playlists: 'playlists',
     session: 'connect_mongodb_session',
   },
 };
