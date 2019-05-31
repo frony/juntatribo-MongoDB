@@ -22,7 +22,6 @@ This project started on May 21st, 2019. It still has a long way to go. This is a
 - Update password
 - Fix bootstrap layout
 - Connect to music API
-- BUG: player repeats the first song
 - Set TLS for https
 - Add more controls to music player
 - Add confirm password form field
