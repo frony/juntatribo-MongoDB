@@ -17,7 +17,7 @@
   (function init() {
     console.log("========= function init ========");
 
-    let current = 2;
+    let current = 0;
     const AUDIO_DIR = '/audio/';
     const playlist = $('#playlist');
     const tracks = playlist.find('li a');
@@ -27,6 +27,7 @@
 
     function run(link, player) {
       console.log("========= function run ========");
+      current++;
       player.src = `${AUDIO_DIR}${link}`;
       player.load();
       player.play();
@@ -39,13 +40,15 @@
       current = $(this).attr('data-file-key');
       run(fileName, audio);
     });
+
     audio.addEventListener('ended', () => {
-      current++;
+      // current++;
       if (current == maxTracks) {
         current = 0;
       }
       const fileName = $(tracks[current]).attr('href');
       console.log(`fileName: ${fileName}`);
+
       run(fileName, audio);
     });
   }());
